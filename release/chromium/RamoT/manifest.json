@@ -1,0 +1,45 @@
+{
+	"name": "RamoT",
+	"description": "__MSG_extensionDescription__",
+	"version": "0.0.2",
+	"manifest_version": 3,
+	"homepage_url": "https://ganohr.net/blog/ramot",
+	"content_scripts": [
+		{
+			"matches": [
+				"https://twitter.com/*",
+				"https://mobile.twitter.com/*"
+			],
+			"js": [
+				"content.js"
+			],
+			"default_icon": "icon-16x16.png"
+		}
+	],
+	"icons": {
+		"16": "icon-16x16.png",
+		"32": "icon-32x32.png",
+		"64": "icon-64x64.png",
+		"128": "icon-128x128.png"
+	},
+	"action": {
+		"default_popup": "popup.html"
+	},
+	"permissions": [
+		"storage"
+	],
+	"web_accessible_resources": [
+		{
+			"resources": [
+				"content.css"
+			],
+			"matches": [
+				"https://twitter.com/*",
+				"https://mobile.twitter.com/*"
+			]
+		}
+	],
+	"default_locale": "ja",
+	"update_url": "https://raw.githubusercontent.com/ganohr/RamoT/main/updates.xml",
+	"key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu/dRcs2VzNDS5Y5pji4CkgaavXuDNL3mWGmWSTM0CBD0Ly/eXnAH0CiWeqMFC9hMktEOcjG5Q6o2jKQ7tb6/u0AHuFO+TXeAfxk07B4hAroGUG4jN7vDDZt/eG9cI8j94Qpmbo1/pA1kU6ILOvMB8C/gtA8hY9VKB2fbQjw/gW/NrFezxy0bA1k2ZsQKuPyRojzGWynEdQfxJ6R33M3Q6gZ/gasdTOOfPR+jAvdfKdQ6DCVjfdmNWJQ3azoS0Hs2yXKWSaqkM+ieKzVjoJwYucxuB7kelh2Hfu4FxJbH9VNB04e2E1nbzyXEWxtjb0o7F+CPnQz7FwXpKmXtkuVrqwIDAQAB"
+}

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="utf-8">
+	<title>RamoT</title>
+	<style>
+		body {
+			max-width: 415px;
+			min-width: 380px;
+		}
+
+		.optionLabelArea {
+			display: inline-block;
+			width: calc(100% - 2em);
+		}
+
+		.optionCheckboxArea {
+			display: inline-block;
+			width: 1em;
+			text-align: center;
+		}
+
+		#optionSave {
+			display: block;
+			max-width: 300px;
+			width: 80%;
+			margin: 1em auto;
+		}
+	</style>
+</head>
+
+
+<body>
+	<h1>RamoT ― Remove autenticated marks on Twitter!</h1>
+	<h2 data-msg="extensionDescription">
+		『RamoT』が、TwitterからBlueの認証マークやトレンド、その他TLに表示される無関係なツイートを削除します
+	</h2>
+	<p>
+		<b data-msg="extensionWarnings">この拡張機能は、ウェブ上のTwitterで、且つ日本語を有効にしないと動作しません。</b>
+	</p>
+	<p>
+		<a href="https://twitter.com/ganohr" target="_blank" rel="noopener,noreferrer" data-msg="linkTwitter">
+			開発者のTwitterへアクセスする
+		</a>
+	</p>
+	<p>
+		<a href="https://ganohr.net/" target="_blank" rel="noopener,noreferrer" data-msg="linkBlog">
+			開発者のブログへアクセスする
+		</a>
+	</p>
+	<p>
+		<a href="http://amzn.asia/gw9HHbg" target="_blank" rel="noopener,noreferrer" data-msg="linkDonate">
+			開発者を支援する
+		</a>
+	</p>
+	<h2 data-msg="option">オプション</h2>
+	<form>
+		<ul>
+			<li>
+				<div class="optionLabelArea">
+					<label data-msg="optionEnabled" for="optionEnabled">
+						有効 *
+					</label>
+				</div>
+				<div class="optionCheckboxArea">
+					<input type="checkbox" id="optionEnabled">
+				</div>
+			</li>
+			<li>
+				<div class="optionLabelArea">
+					<label data-msg="optionRemoveBlueMark" for="optionRemoveBlueMark">
+						「青色認証マーク」を削除する *
+					</label>
+				</div>
+				<div class="optionCheckboxArea">
+					<input type="checkbox" id="optionRemoveBlueMark">
+				</div>
+			</li>
+			<li>
+				<div class="optionLabelArea">
+					<label data-msg="optionRemoveRT" for="optionRemoveRT">
+						「RT」も削除する
+					</label>
+				</div>
+				<div class="optionCheckboxArea">
+					<input type="checkbox" id="optionRemoveRT">
+				</div>
+			</li>
+			<li>
+				<div class="optionLabelArea">
+					<label data-msg="optionRemoveFavs" for="optionRemoveFavs">
+						「いいね」しましたも削除する
+					</label>
+				</div>
+				<div class="optionCheckboxArea">
+					<input type="checkbox" id="optionRemoveFavs">
+				</div>
+			</li>
+			<li>
+				<div class="optionLabelArea">
+					<label data-msg="optionRemoveFollowed" for="optionRemoveFollowed">
+						「フォロー」していますも削除する
+					</label>
+				</div>
+				<div class="optionCheckboxArea">
+					<input type="checkbox" id="optionRemoveFollowed">
+				</div>
+			</li>
+			<li>
+				<div class="optionLabelArea">
+					<label data-msg="optionRemoveRecivedReply" for="optionRemoveRecivedReply">
+						「返信」を受け取りましたも削除する
+					</label>
+				</div>
+				<div class="optionCheckboxArea">
+					<input type="checkbox" id="optionRemoveRecivedReply">
+				</div>
+			</li>
+			<li>
+				<div class="optionLabelArea">
+					<label data-msg="optionRemoveReplied" for="optionRemoveReplied">
+						「返信」しましたも削除する
+					</label>
+				</div>
+				<div class="optionCheckboxArea">
+					<input type="checkbox" id="optionRemoveReplied">
+				</div>
+			</li>
+			<li>
+				<div class="optionLabelArea">
+					<label data-msg="optionRemovePromotion" for="optionRemovePromotion">
+						「プロモーション」も削除する
+					</label>
+				</div>
+				<div class="optionCheckboxArea">
+					<input type="checkbox" id="optionRemovePromotion">
+				</div>
+			</li>
+			<li>
+				<div class="optionLabelArea">
+					<label data-msg="optionRemovePromotedAccount" for="optionRemovePromotedAccount">
+						「おすすめユーザー」も削除する
+					</label>
+				</div>
+				<div class="optionCheckboxArea">
+					<input type="checkbox" id="optionRemovePromotedAccount">
+				</div>
+			</li>
+			<li>
+				<div class="optionLabelArea">
+					<label data-msg="optionRemovePushNotifications" for="optionRemovePushNotifications">
+						「プッシュ通知」も削除する
+					</label>
+				</div>
+				<div class="optionCheckboxArea">
+					<input type="checkbox" id="optionRemovePushNotifications">
+				</div>
+			</li>
+			<li>
+				<div class="optionLabelArea">
+					<label data-msg="optionRemoveViewCounts" for="optionRemoveViewCounts">
+						「閲覧数」も削除する
+					</label>
+				</div>
+				<div class="optionCheckboxArea">
+					<input type="checkbox" id="optionRemoveViewCounts">
+				</div>
+			</li>
+			<li>
+				<div class="optionLabelArea">
+					<label data-msg="optionRemoveAuthorFavedTweets" for="optionRemoveAuthorFavedTweets">
+						「作成者がいいねしました」も削除する
+					</label>
+				</div>
+				<div class="optionCheckboxArea">
+					<input type="checkbox" id="optionRemoveAuthorFavedTweets">
+				</div>
+			</li>
+			<li>
+				<div class="optionLabelArea">
+					<label data-msg="optionInsertCss" for="optionInsertCss">
+						「特殊なCSS」を追加しトレンド等を排除する *
+					</label>
+				</div>
+				<div class="optionCheckboxArea">
+					<input type="checkbox" id="optionInsertCss">
+				</div>
+			</li>
+			<li>
+				<p data-msg="optionHelpDefault">‘*’が付いているものは初期設定で有効</p>
+			</li>
+		</ul>
+		<input type="submit" data-msg="optionSave" id="optionSave" value="保存">
+	</form>
+	<script defer src="ganohrs-localization.js"></script>
+	<script defer src="popup.js"></script>
+</body>
+
+</html>

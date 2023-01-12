@@ -1,0 +1,65 @@
+{
+	"extensionDescription": {
+		"message": "RamoT - Remove authenticated marks and others on Twitter / Only use Japanese Twitter!"
+	},
+	"extensionWarnings": {
+		"message": "This extension does not work on Twitter on the web unless Japanese is enabled."
+	},
+	"linkTwitter": {
+		"message": "Access the developer's Twitter"
+	},
+	"linkBlog": {
+		"message": "Visit the developer's blog"
+	},
+	"linkDonate": {
+		"message": "Donate developer"
+	},
+	"option": {
+		"message": "Options"
+	},
+	"optionEnabled": {
+		"message": "Enabled *"
+	},
+	"optionRemoveBlueMark": {
+		"message": "Remove Blue Marks *"
+	},
+	"optionRemoveRT": {
+		"message": "Remove RT"
+	},
+	"optionRemoveFavs": {
+		"message": "Remove Favs *"
+	},
+	"optionRemoveFollowed": {
+		"message": "Remove Followed by... *"
+	},
+	"optionRemoveRecivedReply": {
+		"message": "Remove Recived reply... *"
+	},
+	"optionRemoveReplied": {
+		"message": "Remove Replied to..."
+	},
+	"optionRemovePromotion": {
+		"message": "Remove Promotions"
+	},
+	"optionRemovePromotedAccount": {
+		"message": "Remove Promoted accounts..."
+	},
+	"optionRemovePushNotifications": {
+		"message": "Remove Push notifications"
+	},
+	"optionRemoveViewCounts": {
+		"message": "Remove View counts..."
+	},
+	"optionRemoveAuthorFavedTweets": {
+		"message": "Remove Author faved tweets..."
+	},
+	"optionInsertCss": {
+		"message": "Insert 'special CSS' to remove trends, etc... *"
+	},
+	"optionHelpDefault": {
+		"message": "Items marked with '*' are enabled by default"
+	},
+	"optionSave": {
+		"message": "Save"
+	}
+}

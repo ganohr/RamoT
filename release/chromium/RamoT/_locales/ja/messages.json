@@ -1,0 +1,65 @@
+{
+	"extensionDescription": {
+		"message": "『RamoT ― Remove authenticated marks and others on Twitter』（ラモート）が、Twitterウェブから無用な認証マーク他を削除"
+	},
+	"extensionWarnings": {
+		"message": "この拡張機能は、ウェブ上のTwitterで、且つ日本語を有効にしないと動作しません。"
+	},
+	"linkTwitter": {
+		"message": "開発者のTwitterへアクセス"
+	},
+	"linkBlog": {
+		"message": "開発者のブログへアクセス"
+	},
+	"linkDonate": {
+		"message": "開発者を支援する"
+	},
+	"option": {
+		"message": "オプション"
+	},
+	"optionEnabled": {
+		"message": "有効 *"
+	},
+	"optionRemoveBlueMark": {
+		"message": "「青色認証マーク」を削除する *"
+	},
+	"optionRemoveRT": {
+		"message": "「RT」も削除する"
+	},
+	"optionRemoveFavs": {
+		"message": "「いいね」しましたも削除する *"
+	},
+	"optionRemoveFollowed": {
+		"message": "「フォロー」していますも削除する *"
+	},
+	"optionRemoveRecivedReply": {
+		"message": "「返信」を受け取りましたも削除する *"
+	},
+	"optionRemoveReplied": {
+		"message": "「返信」しましたも削除する"
+	},
+	"optionRemovePromotion": {
+		"message": "「プロモーション」も削除する"
+	},
+	"optionRemovePromotedAccount": {
+		"message": "「おすすめユーザー」も削除する"
+	},
+	"optionRemovePushNotifications": {
+		"message": "「プッシュ通知」も削除する"
+	},
+	"optionRemoveViewCounts": {
+		"message": "「閲覧数」も削除する"
+	},
+	"optionRemoveAuthorFavedTweets": {
+		"message": "「作成者がいいねしました」も削除する"
+	},
+	"optionInsertCss": {
+		"message": "「特殊なCSS」を追加してトレンド他無用な機能を排除する *"
+	},
+	"optionHelpDefault": {
+		"message": "‘*’が付いているものは初期設定で有効"
+	},
+	"optionSave": {
+		"message": "保存"
+	}
+}

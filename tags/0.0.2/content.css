@@ -1,0 +1,19 @@
+@charset "utf-8";
+
+div[aria-label="タイムライン: トレンド"],
+div[aria-label="タイムライン: トレンド"] *,
+/*a[aria-label*="調べたいものを検索"],
+a[aria-label*="調べたいものを検索"] *,*/
+aside[aria-label*="おすすめユーザー"],
+aside[aria-label*="おすすめユーザー"] *,
+aside[aria-label="関連性の高いアカウント"],
+div[aria-label="タイムライン: "],
+div[aria-label="タイムライン: "] *,
+div[aria-label*="新しいツイートがあります。"] *,
+.css-1dbjc4n.r-x572qd.r-1d6w8o1.r-1867qdf.r-1phboty.r-rs99b7.r-1ifxtd0.r-1udh08x,
+.css-1dbjc4n.r-x572qd.r-1d6w8o1.r-1867qdf.r-1phboty.r-rs99b7.r-1ifxtd0.r-1bro5k0.r-1udh08x,
+.css-901oao.css-16my406.r-18jsvk2.r-1tl8opc.r-bcqeeo.r-qvutc0,
+div[aria-live="polite"],
+div[aria-label$="の未読項目"] {
+	display: none !important;
+}
