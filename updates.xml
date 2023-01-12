@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gupdate xmlns="http://www.google.com/update2/response" protocol="2.0">
     <app appid="ejijoiddmipcfhngldiplokgoakfdife">
-        <updatecheck codebase="https://github.com/ganohr/RamoT/raw/b9c6d5f24aa55438a936d92adffb8065d0ac6d5e/release/RamoT.crx" version="0.0.1" />
+        <updatecheck codebase="https://github.com/ganohr/RamoT/raw/main/release/chromium/RamoT-0.0.1.crx" version="0.0.1" />
+    </app>
+    <app appid="kbjaililnangpnjeahijdloplbdjchlb">
+        <updatecheck codebase="https://github.com/ganohr/RamoT/raw/main/release/chromium/RamoT-0.0.2.crx" version="0.0.2" />
     </app>
 </gupdate>

@@ -1,0 +1,15 @@
+{
+	"addons": {
+		"{636c2c0c-6b6f-4120-8753-168e028db8b5}": {
+			"updates": [
+				{
+					"version": "0.0.1",
+					"update_link": "https://github.com/ganohr/RamoT/raw/main/release/chromium/RamoT-0.0.1.xpi"
+				}, {
+					"version": "0.0.2",
+					"update_link": "https://github.com/ganohr/RamoT/raw/main/release/chromium/RamoT-0.0.2.xpi"
+				}
+			]
+		}
+	}
+}

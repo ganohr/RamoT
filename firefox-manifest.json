@@ -34,7 +34,8 @@
 	"default_locale": "ja",
 	"browser_specific_settings": {
 		"gecko": {
-			"id": "{636c2c0c-6b6f-4120-8753-168e028db8b5}"
+			"id": "{636c2c0c-6b6f-4120-8753-168e028db8b5}",
+			"update_url": "https://raw.githubusercontent.com/ganohr/RamoT/main/firefox-updates.json"
 		}
 	}
 }

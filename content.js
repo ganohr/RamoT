@@ -67,6 +67,13 @@ if (already_running === null) {
 				e => e.parentNode.remove()
 			);
 		}
+		if (options.optionRemoveFollowed) {
+			document.querySelectorAll(
+				'a[aria-label="知り合いのフォロワー"]'
+			).forEach(
+				e => e.parentNode.parentNode.parentNode.parentNode.remove()
+			);
+		}
 		let snapshotRemover = (snaps) => {
 			for (let i = 0; i < snaps.snapshotLength; i++) {
 				snaps.snapshotItem(i).remove();
@@ -92,6 +99,7 @@ if (already_running === null) {
 		}
 		if (options.optionRemovePromotedAccount) {
 			evOpts.push("text()='おすすめユーザー'");
+			evOpts.push("text()='さらに表示'");
 		}
 		if (options.optionRemovePushNotifications) {
 			evOpts.push("text()='プッシュ通知'");
