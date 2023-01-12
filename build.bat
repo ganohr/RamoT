@@ -9,6 +9,7 @@ echo VERSION
 echo %version%
 
 set "outpath=.\tags\%version%"
+del /F /Q /S %outpath%\
 mkdir %outpath%\
 
 copy *.md %outpath%\
