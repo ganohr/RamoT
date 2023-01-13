@@ -87,8 +87,9 @@ if (already_running === null) {
 			evOpts.push("contains(text(),'さんがいいねしました')");
 		}
 		if (options.optionRemoveFollowed) {
-			evOpts.push("text()='さんがフォローしています'");
-			evOpts.push("text()='フォロー'");
+// 			evOpts.push("text()='さんがフォローしています'");
+// 			evOpts.push("text()='さんがフォロー'");
+			snapshotRemover(document.evaluate("//div[@data-testid='cellInnerDiv']//span[contains(text(),'さんがフォロー')]/ancestor::div[@data-testid='cellInnerDiv']/div", document, null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null));
 		}
 		if (options.optionRemoveRecivedReply) {
 			evOpts.push("contains(text(),'さんが新しい返信を受け取りました')");
