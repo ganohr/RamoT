@@ -4,10 +4,8 @@ if (chrome !== undefined) {
 	// maybe firefox
 }
 
-let runner = null;
-
 let options = null;
-function optionUpdator() {
+let optionUpdator = () => {
 	try {
 		browser.storage.local.get(
 			'options',
@@ -20,159 +18,138 @@ function optionUpdator() {
 			clearInterval(runner);
 		}
 	}
-}
+};
 
 let contentCss = null;
 async function loadCss() {
 	const res = await fetch(browser.runtime.getURL('content.css'), { method: "GET" });
 	contentCss = await res.text();
 }
+loadCss();
 
-let already_running = document.getElementById('ganohrs-ramot');
-if (already_running === null) {
-	let dummy = document.createElement('hidden');
-	dummy.id = 'ganohrs-ramot';
-	document.body.appendChild(dummy);
-	loadCss();
-	runner = setInterval(() => {
-		optionUpdator(); // this is not async, but it's ok.
-		if (options === null || options.optionEnabled === false) {
-			return;
+let parentRemoverWithDepth = (node, depth) => {
+	let nowNode = node;
+	if (nowNode === null) {
+		return;
+	}
+	for (let i = 0; i < depth; i++) {
+		if (nowNode.parentNode !== null) {
+			nowNode = nowNode.parentNode;
 		}
-		/*
+	}
+	if (nowNode !== null) {
+		nowNode.remove();
+	}
+};
+
+let snapshotRemover = (snaps) => {
+	for (let i = 0; i < snaps.snapshotLength; i++) {
+		setTimeout(() => snaps.snapshotItem(i).remove(), 1);
+	}
+};
+let evaluateRmover = (evaluatePart) => {
+	snapshotRemover(
+		document.evaluate(
+			`//div[@data-testid='cellInnerDiv']//span[${evaluatePart}]/ancestor::div[@data-testid='cellInnerDiv']/div`,
+			document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null
+		)
+	);
+};
+
+let cosmeticRemover = () => {
+	if (options.optionRemoveBlueMark) {
 		document.querySelectorAll(
-			'svg[aria-label="認証済みアカウント"] g path:first-child'
+			'svg.r-1cvl2hr.r-4qtqp9.r-yyyyoo.r-1xvli5t.r-f9ja8p.r-og9te1.r-bnwqim.r-1plcrui.r-lrvibr'
 		).forEach(
-			e => e.getAttribute("clip-rule") !== "evenodd"
-				&& e.parentNode.parentNode.remove()
-		);*/
-		if (options.optionRemoveBlueMark) {
-			document.querySelectorAll(
-				'svg.r-1cvl2hr.r-4qtqp9.r-yyyyoo.r-1xvli5t.r-f9ja8p.r-og9te1.r-bnwqim.r-1plcrui.r-lrvibr'
-			).forEach(
-				e => e.remove()
-			);
-		}
-		if (options.optionRemoveViewCounts) {
-			document.querySelectorAll(
-				'svg path[d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"]'
-			).forEach(
-				e => e.parentNode.parentNode.parentNode.parentNode.remove()
-			);
-		}
-		if (options.optionRemoveAuthorFavedTweets) {
-			document.querySelectorAll(
-				'div[aria-label="作成者がいいねしました"]'
-			).forEach(
-				e => e.parentNode.remove()
-			);
-		}
-		if (options.optionRemoveFollowed) {
-			document.querySelectorAll(
-				'a[aria-label="知り合いのフォロワー"]'
-			).forEach(
-				e => e.parentNode.parentNode.parentNode.parentNode.remove()
-			);
-		}
-		let snapshotRemover = (snaps) => {
-			for (let i = 0; i < snaps.snapshotLength; i++) {
-				snaps.snapshotItem(i).remove();
-			}
-		};
-		let evOpts = [];
-		if (options.optionRemoveRT) {
-			evOpts.push("text()='さんがリツイートしました'");
-		}
-		if (options.optionRemoveFavs) {
-			evOpts.push("contains(text(),'さんがいいねしました')");
-		}
-		if (options.optionRemoveFollowed) {
-// 			evOpts.push("text()='さんがフォローしています'");
-// 			evOpts.push("text()='さんがフォロー'");
-			snapshotRemover(document.evaluate("//div[@data-testid='cellInnerDiv']//span[contains(text(),'さんがフォロー')]/ancestor::div[@data-testid='cellInnerDiv']/div", document, null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null));
-		}
-		if (options.optionRemoveRecivedReply) {
-			evOpts.push("contains(text(),'さんが新しい返信を受け取りました')");
-			evOpts.push("contains(text(),'さんが返信を受け取りました')");
-		}
-		if (options.optionRemovePromotion) {
-			evOpts.push("text()='プロモーション'");
-		}
-		if (options.optionRemovePromotedAccount) {
-			evOpts.push("text()='おすすめユーザー'");
-			evOpts.push("text()='さらに表示'");
-		}
-		if (options.optionRemovePushNotifications) {
-			evOpts.push("text()='プッシュ通知'");
-		}
-		let evOptions = "";
-		for (let i = 0; i < evOpts.length; i++) {
-			evOptions += evOpts[i];
-			if (i < (evOpts.length - 1)) {
-				evOptions += " or ";
-			}
-		}
+			e => e.remove()
+		);
+	}
+	if (options.optionRemoveViewCounts) {
+		document.querySelectorAll(
+			'svg path[d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"]'
+		).forEach(
+			e => parentRemoverWithDepth(e, 4)
+		);
+	}
+	if (options.optionRemoveAuthorFavedTweets) {
+		document.querySelectorAll(
+			'div[aria-label="作成者がいいねしました"]'
+		).forEach(
+			e => parentRemoverWithDepth(e, 1)
+		);
+	}
+	if (options.optionRemoveFollowed) {
+		document.querySelectorAll(
+			'a[aria-label="知り合いのフォロワー"]'
+		).forEach(
+			e => parentRemoverWithDepth(e, 10)
+		);
+	}
+	if (options.optionRemovePromotedAccount) {
 		snapshotRemover(
 			document.evaluate(
-				"//div[@data-testid='cellInnerDiv']//span["
-				+ evOptions
-				+ "]/ancestor::div[@data-testid='cellInnerDiv']/div"
-				, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null
+				'//span[text()="あなたがフォローしているユーザーにフォローされています"]'
+				+ '/ancestor::div[@class="css-1dbjc4n"]//div[@class="css-1dbjc4n r-1iusvr4 r-16y2uox r-ttdzmv"]',
+				document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null
 			)
-		);
-
-		/*
-		snapshotRemover(
-			document.evaluate(
-				"//div[@data-testid='cellInnerDiv']//span["
-				+ "text()='さんがリツイートしました' or "
-				+ "text()='さらに表示' or "
-				+ "text()='さんがフォローしています' or "
-				+ "text()='フォロー' or "
-				+ "text()='おすすめユーザー' or "
-				+ "text()='プロモーション' or "
-				+ "contains(text(),'さんがフォロー') or "
-				+ "contains(text(),'さんが新しい返信を受け取りました') or "
-				+ "contains(text(),'さんが返信を受け取りました') or "
-				+ "contains(text(),'さんが返信しました') or "
-				+ "contains(text(),'さんがいいねしました')"
-				+ "]/ancestor::div[@data-testid='cellInnerDiv']/div",
-				document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null
-			)
-		);
-		*/
-		/*
-		const remover =
-			(ele, c) => ele.dataset.testid === "cellInnerDiv"
-				? ele.remove()
-				: (ele.parentNode.getAttribute("aria-label") !== "ホームタイムライン" && ele.parentNode !== null)
-					? console.log(c, ele, setTimeout(()=>remover(ele.parentNode, c + 1), 2000))
-					: void(0);
-		document.querySelectorAll(".css-901oao.css-16my406.r-1tl8opc.r-bcqeeo.r-qvutc0").forEach(
-			e => /(さんが|新しい)(返信|フォロー|いいね|リツイート)/.test(e.innerHTML)
-				? setTimeout(()=>remover(e, 0), 2000)
-				: void(0)
-		);
-		*/
-		/*
-		document.querySelectorAll(".css-901oao.css-16my406.r-1tl8opc.r-bcqeeo.r-qvutc0").forEach(
-			e => /(さんが|新しい)(返信|フォロー|いいね)/.test(e.innerHTML)
-				? e.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.remove()
-				: void(0)
-		);
-		*/
-		let specialCss = document.getElementById('ganohrs-ramot-style');
-		if (specialCss !== null && options.optionInsertCss === false) {
-			specialCss.remove();
-		}
-		if (contentCss === null || options.optionInsertCss === false) {
-			return;
-		}
-		if (specialCss === null) {
-			specialCss = document.createElement('style');
-			specialCss.id = 'ganohrs-ramot-style';
-			specialCss.innerText = contentCss;
-			document.body.appendChild(specialCss);
-		}
-	}, 1);
+		)
+	}
 }
+
+let timelineRemover = () => {
+	if (options.optionRemoveRT) {
+		evaluateRmover("text()='さんがリツイートしました'");
+	}
+	if (options.optionRemoveFavs) {
+		evaluateRmover("contains(text(),'さんがいいねしました')");
+	}
+	if (options.optionRemoveFollowed) {
+		evaluateRmover("text()='さんがフォローしています'");
+		evaluateRmover("text()='さんがフォロー'");
+	}
+	if (options.optionRemoveRecivedReply) {
+		evaluateRmover("contains(text(),'新しい返信を受け取りました')");
+		evaluateRmover("contains(text(),'さんが返信を受け取りました')");
+	}
+	if (options.optionRemovePromotion) {
+		evaluateRmover("text()='プロモーション'");
+	}
+	if (options.optionRemovePromotedAccount) {
+		evaluateRmover("text()='おすすめユーザー'");
+		evaluateRmover("text()='さらに表示'");
+	}
+	if (options.optionRemovePushNotifications) {
+		evaluateRmover("text()='プッシュ通知'");
+	}
+	if (options.optionRemovePromoteForYou) {
+		evaluateRmover("text()='あなたへのおすすめ'");
+	}
+}
+
+let cssLoader = () => {
+	let specialCss = document.getElementById('ganohrs-ramot-style');
+	if (specialCss !== null && options.optionInsertCss === false) {
+		specialCss.remove();
+	}
+	if (contentCss === null || options.optionInsertCss === false) {
+		return;
+	}
+	if (specialCss === null) {
+		specialCss = document.createElement('style');
+		specialCss.id = 'ganohrs-ramot-style';
+		specialCss.innerText = contentCss;
+		document.body.appendChild(specialCss);
+	}
+}
+
+let runner = setInterval(() => {
+	optionUpdator(); // this is not async, but it's ok.
+	if (options === null || options.optionEnabled === false) {
+		return;
+	}
+
+	setTimeout(cosmeticRemover, 100);
+	setTimeout(timelineRemover, 100);
+	setTimeout(cssLoader, 100);
+
+}, 100);

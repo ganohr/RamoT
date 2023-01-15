@@ -44,6 +44,9 @@
 	"optionRemovePromotedAccount": {
 		"message": "「おすすめユーザー」も削除する"
 	},
+	"optionRemovePromoteForYou": {
+		"message": "「あなたへのおすすめ」も削除する"
+	},
 	"optionRemovePushNotifications": {
 		"message": "「プッシュ通知」も削除する"
 	},
