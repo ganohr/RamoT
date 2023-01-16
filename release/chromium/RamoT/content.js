@@ -4,8 +4,9 @@ if (chrome !== undefined) {
 	// maybe firefox
 }
 
+
 let options = null;
-let optionUpdator = () => {
+const optionUpdator = () => {
 	try {
 		browser.storage.local.get(
 			'options',
@@ -13,10 +14,8 @@ let optionUpdator = () => {
 				options = items.options;
 			}
 		);
-	} catch {
-		if (runner !== null) {
-			clearInterval(runner);
-		}
+	} catch(e) {
+		console.log(e);
 	}
 };
 
@@ -27,7 +26,7 @@ async function loadCss() {
 }
 loadCss();
 
-let parentRemoverWithDepth = (node, depth) => {
+const parentRemoverWithDepth = (node, depth) => {
 	let nowNode = node;
 	if (nowNode === null) {
 		return;
@@ -42,12 +41,12 @@ let parentRemoverWithDepth = (node, depth) => {
 	}
 };
 
-let snapshotRemover = (snaps) => {
+const snapshotRemover = (snaps) => {
 	for (let i = 0; i < snaps.snapshotLength; i++) {
-		setTimeout(() => snaps.snapshotItem(i).remove(), 1);
+		snaps.snapshotItem(i).remove();
 	}
 };
-let evaluateRmover = (evaluatePart) => {
+const evaluateRmover = (evaluatePart) => {
 	snapshotRemover(
 		document.evaluate(
 			`//div[@data-testid='cellInnerDiv']//span[${evaluatePart}]/ancestor::div[@data-testid='cellInnerDiv']/div`,
@@ -56,7 +55,7 @@ let evaluateRmover = (evaluatePart) => {
 	);
 };
 
-let cosmeticRemover = () => {
+const cosmeticRemover = () => {
 	if (options.optionRemoveBlueMark) {
 		document.querySelectorAll(
 			'svg.r-1cvl2hr.r-4qtqp9.r-yyyyoo.r-1xvli5t.r-f9ja8p.r-og9te1.r-bnwqim.r-1plcrui.r-lrvibr'
@@ -94,9 +93,9 @@ let cosmeticRemover = () => {
 			)
 		)
 	}
-}
+};
 
-let timelineRemover = () => {
+const timelineRemover = () => {
 	if (options.optionRemoveRT) {
 		evaluateRmover("text()='さんがリツイートしました'");
 	}
@@ -110,6 +109,7 @@ let timelineRemover = () => {
 	if (options.optionRemoveRecivedReply) {
 		evaluateRmover("contains(text(),'新しい返信を受け取りました')");
 		evaluateRmover("contains(text(),'さんが返信を受け取りました')");
+		evaluateRmover("contains(text(),'さんが返信しました')");
 	}
 	if (options.optionRemovePromotion) {
 		evaluateRmover("text()='プロモーション'");
@@ -124,10 +124,13 @@ let timelineRemover = () => {
 	if (options.optionRemovePromoteForYou) {
 		evaluateRmover("text()='あなたへのおすすめ'");
 	}
-}
+	if (options.optionRemovePromoteForYou) {
+		evaluateRmover("text()='このツイートはありません。'");
+	}
+};
 
-let cssLoader = () => {
-	let specialCss = document.getElementById('ganohrs-ramot-style');
+const cssLoader = () => {
+	const specialCss = document.getElementById('ganohrs-ramot-style');
 	if (specialCss !== null && options.optionInsertCss === false) {
 		specialCss.remove();
 	}
@@ -135,14 +138,14 @@ let cssLoader = () => {
 		return;
 	}
 	if (specialCss === null) {
-		specialCss = document.createElement('style');
-		specialCss.id = 'ganohrs-ramot-style';
-		specialCss.innerText = contentCss;
-		document.body.appendChild(specialCss);
+		const elem = document.createElement('style');
+		elem.id = 'ganohrs-ramot-style';
+		elem.innerText = contentCss;
+		document.body.appendChild(elem);
 	}
-}
+};
 
-let runner = setInterval(() => {
+const main = () => {
 	optionUpdator(); // this is not async, but it's ok.
 	if (options === null || options.optionEnabled === false) {
 		return;
@@ -151,5 +154,30 @@ let runner = setInterval(() => {
 	setTimeout(cosmeticRemover, 100);
 	setTimeout(timelineRemover, 100);
 	setTimeout(cssLoader, 100);
+};
 
-}, 100);
+let scrolling = false;
+let scrollTimer = null;
+window.addEventListener("scroll", () => {
+	if (scrollTimer != null) {
+		clearTimeout(scrollTimer) ;
+	}
+	scrollTimer = setTimeout(main, 500) ;
+});
+
+document.addEventListener(
+	'DOMContentLoaded',
+	(event) => {
+		const mo = new MutationObserver(
+			(mutations) => {
+				main();
+			}
+		);
+		const element = document.body;
+		const config = {
+			childList: true,
+			subtree: true
+		};
+		mo.observe(element, config);
+	}
+);

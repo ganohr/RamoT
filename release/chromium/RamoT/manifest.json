@@ -10,6 +10,7 @@
 				"https://twitter.com/*",
 				"https://mobile.twitter.com/*"
 			],
+			"run_at":"document_start",
 			"js": [
 				"content.js"
 			],

@@ -47,6 +47,9 @@
 	"optionRemovePromoteForYou": {
 		"message": "Remove Proted tweet for you..."
 	},
+	"optionRemoveNothingTweet": {
+		"message": "Remove Nothing Tweet... *"
+	},
 	"optionRemovePushNotifications": {
 		"message": "Remove Push notifications"
 	},

@@ -32,6 +32,7 @@ function getDefaultOptions() {
 		"optionRemoveFollowed": true,
 		"optionRemoveRecivedReply": true,
 		"optionInsertCss": true,
+		"optionRemovePromoteForYou": true,
 	};
 }
 
