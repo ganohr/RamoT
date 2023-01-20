@@ -4,6 +4,31 @@ if (chrome !== undefined) {
 	// maybe firefox
 }
 
+let domCalcKey = (key) => {
+	return `ganohrs-ramot-${key}`;
+};
+let domKeyValuePairUpdate = (key, val) => {
+	let elem = document.getElementById(domCalcKey(key));
+	if (val === null) {
+		if (elem !== null) {
+			elem.remove();
+		}
+		return true;
+	} else if(elem === null) {
+		elem = document.createElement('hidden');
+		elem.id = domCalcKey(key);
+		document.body.appendChild(elem);
+	}
+	elem.value = val;
+	return true;
+};
+let domGetValueWithKey = (key) => {
+	const elem = document.getElementById(domCalcKey(key));
+	if (elem === null) {
+		return null;
+	}
+	return elem.value;
+}
 
 let options = null;
 const optionUpdator = () => {
@@ -46,7 +71,7 @@ const snapshotRemover = (snaps) => {
 		snaps.snapshotItem(i).remove();
 	}
 };
-const evaluateRmover = (evaluatePart) => {
+const evaluateRemover = (evaluatePart) => {
 	snapshotRemover(
 		document.evaluate(
 			`//div[@data-testid='cellInnerDiv']//span[${evaluatePart}]/ancestor::div[@data-testid='cellInnerDiv']/div`,
@@ -97,35 +122,33 @@ const cosmeticRemover = () => {
 
 const timelineRemover = () => {
 	if (options.optionRemoveRT) {
-		evaluateRmover("text()='さんがリツイートしました'");
+		evaluateRemover("text()='さんがリツイートしました'");
 	}
 	if (options.optionRemoveFavs) {
-		evaluateRmover("contains(text(),'さんがいいねしました')");
+		evaluateRemover("contains(text(),'さんがいいねしました')");
 	}
 	if (options.optionRemoveFollowed) {
-		evaluateRmover("text()='さんがフォローしています'");
-		evaluateRmover("text()='さんがフォロー'");
+		evaluateRemover("text()='さんがフォローしています'");
+		evaluateRemover("text()='さんがフォロー'");
 	}
 	if (options.optionRemoveRecivedReply) {
-		evaluateRmover("contains(text(),'新しい返信を受け取りました')");
-		evaluateRmover("contains(text(),'さんが返信を受け取りました')");
-		evaluateRmover("contains(text(),'さんが返信しました')");
+		evaluateRemover("contains(text(),'新しい返信を受け取りました')");
+		evaluateRemover("contains(text(),'さんが返信を受け取りました')");
+		evaluateRemover("contains(text(),'さんが返信しました')");
 	}
 	if (options.optionRemovePromotion) {
-		evaluateRmover("text()='プロモーション'");
+		evaluateRemover("text()='プロモーション'");
 	}
 	if (options.optionRemovePromotedAccount) {
-		evaluateRmover("text()='おすすめユーザー'");
-		evaluateRmover("text()='さらに表示'");
+		evaluateRemover("text()='おすすめユーザー'");
+		evaluateRemover("text()='さらに表示'");
 	}
 	if (options.optionRemovePushNotifications) {
-		evaluateRmover("text()='プッシュ通知'");
+		evaluateRemover("text()='プッシュ通知'");
 	}
 	if (options.optionRemovePromoteForYou) {
-		evaluateRmover("text()='あなたへのおすすめ'");
-	}
-	if (options.optionRemovePromoteForYou) {
-		evaluateRmover("text()='このツイートはありません。'");
+		evaluateRemover("text()='あなたへのおすすめ'");
+		evaluateRemover("text()='このツイートはありません。'");
 	}
 };
 
@@ -139,11 +162,38 @@ const cssLoader = () => {
 	}
 	if (specialCss === null) {
 		const elem = document.createElement('style');
-		elem.id = 'ganohrs-ramot-style';
+		elem.id = domCalcKey('style');
 		elem.innerText = contentCss;
 		document.body.appendChild(elem);
 	}
 };
+
+const followedClicker = () => {
+	if (false
+		|| domGetValueWithKey('followed-clicker') === 'runned'
+		|| options === null || options === undefined
+		|| ! options.optionAutoClickIfNotFollowed
+	) {
+		return;
+	}
+	domKeyValuePairUpdate('followed-clicker', 'running');
+	let elem = document.evaluate(
+		'//a[@href="/home"]//span[text()="フォロー中" or text()="おすすめ"]',
+		document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null
+	);
+	if (elem === null || elem.snapshotLength !== 2) {
+		return;
+	}
+	let snaps = document.evaluate(
+		'//a[@href="/home"]//span[text()="フォロー中"]/following-sibling::div[@class="css-1dbjc4n r-xoduu5"]/preceding-sibling::span',
+		document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null
+	);
+	if (snaps === null || snaps.snapshotLength === 0) {
+		return;
+	}
+	snaps.snapshotItem(0).click();
+	domKeyValuePairUpdate('followed-clicker', 'runned');
+}
 
 const main = () => {
 	optionUpdator(); // this is not async, but it's ok.
@@ -151,9 +201,11 @@ const main = () => {
 		return;
 	}
 
-	setTimeout(cosmeticRemover, 100);
-	setTimeout(timelineRemover, 100);
-	setTimeout(cssLoader, 100);
+	followedClickerTimer = setInterval(followedClicker, 100);
+
+	setInterval(cosmeticRemover, 100);
+	setInterval(timelineRemover, 100);
+	setInterval(cssLoader, 100);
 };
 
 let scrolling = false;

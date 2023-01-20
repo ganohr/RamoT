@@ -54,7 +54,8 @@ move %makepath%RamoT\firefox-manifest.json %makepath%RamoT\manifest.json
 set "zipfile=%makepath%\RamoT-%version%.zip"
 del %zipfile%
 
-powershell compress-archive %makepath%\RamoT\* %zipfile% -Force
+rem powershell compress-archive %makepath%\RamoT\* %zipfile% -Force
+"C:\Program Files\7-Zip\7z.exe" a %zipfile% %makepath%\RamoT\*
 
 set "basefile=%makepath%\RamoT.zip"
 del %basefile%
@@ -62,5 +63,5 @@ del %basefile%
 copy %zipfile% %basefile%
 
 endlocal
-rem pause
+pause
 echo on

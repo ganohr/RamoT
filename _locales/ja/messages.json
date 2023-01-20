@@ -62,6 +62,9 @@
 	"optionInsertCss": {
 		"message": "「特殊なCSS」を追加してトレンド他無用な機能を排除する *"
 	},
+	"optionAutoClickIfNotFollowed": {
+		"message": "アクセス時に「フォロー中」タブを自動的に表示する"
+	},
 	"optionHelpDefault": {
 		"message": "‘*’が付いているものは初期設定で有効"
 	},

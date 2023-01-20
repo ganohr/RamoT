@@ -62,6 +62,9 @@
 	"optionInsertCss": {
 		"message": "Insert 'special CSS' to remove trends, etc... *"
 	},
+	"optionAutoClickIfNotFollowed": {
+		"message": "Automatically display the 'Following' tab on first visit"
+	},
 	"optionHelpDefault": {
 		"message": "Items marked with '*' are enabled by default"
 	},

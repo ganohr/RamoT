@@ -4,6 +4,31 @@ if (chrome !== undefined) {
 	// maybe firefox
 }
 
+let domCalcKey = (key) => {
+	return `ganohrs-ramot-${key}`;
+};
+let domKeyValuePairUpdate = (key, val) => {
+	let elem = document.getElementById(domCalcKey(key));
+	if (val === null) {
+		if (elem !== null) {
+			elem.remove();
+		}
+		return true;
+	} else if(elem === null) {
+		elem = document.createElement('hidden');
+		elem.id = domCalcKey(key);
+		document.body.appendChild(elem);
+	}
+	elem.value = val;
+	return true;
+};
+let domGetValueWithKey = (key) => {
+	const elem = document.getElementById(domCalcKey(key));
+	if (elem === null) {
+		return null;
+	}
+	return elem.value;
+}
 
 let options = null;
 const optionUpdator = () => {
@@ -137,11 +162,38 @@ const cssLoader = () => {
 	}
 	if (specialCss === null) {
 		const elem = document.createElement('style');
-		elem.id = 'ganohrs-ramot-style';
+		elem.id = domCalcKey('style');
 		elem.innerText = contentCss;
 		document.body.appendChild(elem);
 	}
 };
+
+const followedClicker = () => {
+	if (false
+		|| domGetValueWithKey('followed-clicker') === 'runned'
+		|| options === null || options === undefined
+		|| ! options.optionAutoClickIfNotFollowed
+	) {
+		return;
+	}
+	domKeyValuePairUpdate('followed-clicker', 'running');
+	let elem = document.evaluate(
+		'//a[@href="/home"]//span[text()="フォロー中" or text()="おすすめ"]',
+		document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null
+	);
+	if (elem === null || elem.snapshotLength !== 2) {
+		return;
+	}
+	let snaps = document.evaluate(
+		'//a[@href="/home"]//span[text()="フォロー中"]/following-sibling::div[@class="css-1dbjc4n r-xoduu5"]/preceding-sibling::span',
+		document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null
+	);
+	if (snaps === null || snaps.snapshotLength === 0) {
+		return;
+	}
+	snaps.snapshotItem(0).click();
+	domKeyValuePairUpdate('followed-clicker', 'runned');
+}
 
 const main = () => {
 	optionUpdator(); // this is not async, but it's ok.
@@ -149,9 +201,11 @@ const main = () => {
 		return;
 	}
 
-	setTimeout(cosmeticRemover, 100);
-	setTimeout(timelineRemover, 100);
-	setTimeout(cssLoader, 100);
+	followedClickerTimer = setInterval(followedClicker, 100);
+
+	setInterval(cosmeticRemover, 100);
+	setInterval(timelineRemover, 100);
+	setInterval(cssLoader, 100);
 };
 
 let scrolling = false;
