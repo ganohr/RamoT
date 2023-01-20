@@ -63,5 +63,5 @@ del %basefile%
 copy %zipfile% %basefile%
 
 endlocal
-pause
+rem pause
 echo on

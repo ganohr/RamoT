@@ -65,6 +65,9 @@
 	"optionAutoClickIfNotFollowed": {
 		"message": "Automatically display the 'Following' tab on first visit"
 	},
+	"optionHighPerformanceMode": {
+		"message": "Enable High perfomance mode"
+	},
 	"optionHelpDefault": {
 		"message": "Items marked with '*' are enabled by default"
 	},

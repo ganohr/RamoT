@@ -6,4 +6,7 @@
     <app appid="kbjaililnangpnjeahijdloplbdjchlb">
         <updatecheck codebase="https://github.com/ganohr/RamoT/raw/main/release/chromium/RamoT-0.0.2.crx" version="0.0.2" />
     </app>
+    <app appid="kbjaililnangpnjeahijdloplbdjchlb">
+        <updatecheck codebase="https://github.com/ganohr/RamoT/raw/main/release/chromium/RamoT-0.0.3.crx" version="0.0.3" />
+    </app>
 </gupdate>

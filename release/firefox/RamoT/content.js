@@ -117,6 +117,13 @@ const cosmeticRemover = () => {
 				document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null
 			)
 		)
+		snapshotRemover(
+			document.evaluate(
+				'//span[text()="あなたとこのユーザーには同じ相互フォローがいます"]'
+				+ '/ancestor::div[@class="css-1dbjc4n"]//div[@class="css-1dbjc4n r-1iusvr4 r-16y2uox r-ttdzmv"]',
+				document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null
+			)
+		)
 	}
 };
 
@@ -128,8 +135,9 @@ const timelineRemover = () => {
 		evaluateRemover("contains(text(),'さんがいいねしました')");
 	}
 	if (options.optionRemoveFollowed) {
-		evaluateRemover("text()='さんがフォローしています'");
-		evaluateRemover("text()='さんがフォロー'");
+		evaluateRemover("contains(text(),'人がフォローしています')");
+		evaluateRemover("contains(text(),'さんがフォローしています')");
+		evaluateRemover("contains(text(),'さんがフォロー')");
 	}
 	if (options.optionRemoveRecivedReply) {
 		evaluateRemover("contains(text(),'新しい返信を受け取りました')");
@@ -201,28 +209,41 @@ const main = () => {
 		return;
 	}
 
-	followedClickerTimer = setInterval(followedClicker, 100);
+	followedClicker();
 
-	setInterval(cosmeticRemover, 100);
-	setInterval(timelineRemover, 100);
-	setInterval(cssLoader, 100);
+	cosmeticRemover();
+	timelineRemover();
+	cssLoader();
 };
 
-let scrolling = false;
 let scrollTimer = null;
 window.addEventListener("scroll", () => {
 	if (scrollTimer != null) {
-		clearTimeout(scrollTimer) ;
+		clearTimeout(scrollTimer);
 	}
-	scrollTimer = setTimeout(main, 500) ;
+	optionUpdator();
+	if (options === null || options.optionEnabled === false) {
+		return;
+	}
+	const timming = options.optionHighPerformanceMode ? 100 : 300;
+	scrollTimer = setTimeout(main, timming);
 });
 
+let mutationTimer = null;
 document.addEventListener(
 	'DOMContentLoaded',
 	(event) => {
 		const mo = new MutationObserver(
 			(mutations) => {
-				main();
+				if (mutationTimer != null) {
+					clearTimeout(mutationTimer);
+				}
+				optionUpdator();
+				if (options === null || options.optionEnabled === false) {
+					return;
+				}
+				const timming = options.optionHighPerformanceMode ? 100 : 300;
+				mutationTimer = setTimeout(main, timming);
 			}
 		);
 		const element = document.body;

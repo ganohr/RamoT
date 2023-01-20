@@ -65,6 +65,9 @@
 	"optionAutoClickIfNotFollowed": {
 		"message": "アクセス時に「フォロー中」タブを自動的に表示する"
 	},
+	"optionHighPerformanceMode": {
+		"message": "「高負荷モード」を有効化する"
+	},
 	"optionHelpDefault": {
 		"message": "‘*’が付いているものは初期設定で有効"
 	},
